@@ -1,0 +1,10 @@
+# Common IntelliJ Platform excludes
+
+# Rider generated directory
+#**/.idea/**/*
+
+.idea/
+
+[Oo]bj/
+[Bb]in/
+
