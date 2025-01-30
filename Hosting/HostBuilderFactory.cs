@@ -28,6 +28,7 @@ public static class HostBuilderFactory
                         new KeyValuePair<string, string?>("country", country)
                     ]);
 
+                    // Add command lin args; Format key=value
                     if (args != null)
                         hostConfig.AddCommandLine(args);
                 })
