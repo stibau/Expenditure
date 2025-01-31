@@ -37,14 +37,20 @@ public static class HostBuilderFactory
             .ConfigureServices(
                 (builderContext, services) =>
                 {
-                    //Here we can read whatever variable that was configured from the builder context
-                    // ReSharper disable once UnusedVariable
+                    // This is a method used to configure the dependency injection (DI) container.
+                    // The DI container is responsible for managing the application's services, such as logging,
+                    // database contexts, application services, etc.
+                    // When you use ConfigureServices(), you're adding services to the application's service container,
+                    // telling the application which services it will depend on and how they should be instantiated
+                    // (such as transient, scoped, or singleton)
+
+                    // Here we can read whatever variable that was configured from the builder context
+                    // ReSharper disable once UnusedVariable. Meaving this here as a demo
                     var age = builderContext.Configuration.GetValue<int>("Age");
                     // ReSharper disable once UnusedVariable
                     var environment = builderContext.Configuration["Environment"];
 
-                    // TODO: what are the different ways of adding a service
-                    // TODO: How to use DI with these added services
+                    // TODO: Test DI
                     services.AddHostedService<TestService>();
                 })
             // configures how the application handles dependency injection, allowing for better diagnostics and stricter validation,
@@ -57,6 +63,11 @@ public static class HostBuilderFactory
                 // a scoped service is used incorrectly.
                 options.ValidateOnBuild = true;
             });
+    }
+
+    public static IHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
+    {
+        return null;
     }
 
     private static IHostBuilder ConfigureAppConfiguration(
