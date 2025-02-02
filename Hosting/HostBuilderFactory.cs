@@ -45,13 +45,10 @@ public static class HostBuilderFactory
                     // (such as transient, scoped, or singleton)
 
                     // Here we can read whatever variable that was configured from the builder context
-                    // ReSharper disable once UnusedVariable. Meaving this here as a demo
-                    var age = builderContext.Configuration.GetValue<int>("Age");
-                    // ReSharper disable once UnusedVariable
-                    var environment = builderContext.Configuration["Environment"];
+                    var factor = builderContext.Configuration.GetValue<int>("calculation:factor");
 
-                    // TODO: Test DI
                     services.AddHostedService<TestService>();
+                    services.AddSingleton<ITestClass, TestClass>(provider => new TestClass(factor));
                 })
             // configures how the application handles dependency injection, allowing for better diagnostics and stricter validation,
             // helping developers ensure that services are configured correctly before they are used.

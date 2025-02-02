@@ -4,6 +4,12 @@ namespace Hosting;
 
 public class TestService : IHostedService
 {
+    public ITestClass TestClass { get; }
+
+    public TestService(ITestClass testClass)
+    {
+        TestClass = testClass;
+    }
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         Console.WriteLine("TestService is starting...");
@@ -11,7 +17,8 @@ public class TestService : IHostedService
         while (a < 50000)
         {
             a++;
-            Console.WriteLine($"Iteration {a}");
+            var currentResult = TestClass.GetResult(a);
+            Console.WriteLine($"Iteration {currentResult}");
         }
 
         await Task.CompletedTask;
