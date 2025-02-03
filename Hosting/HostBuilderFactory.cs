@@ -34,16 +34,10 @@ public static class HostBuilderFactory
                 })
             // This is used for configuring application-specific settings, like loading appSettings.json, environment variables, etc.
             .ConfigureAppConfiguration(args, "appSettings")
+            // This is a method used to configure the dependency injection (DI) container.
             .ConfigureServices(
                 (builderContext, services) =>
                 {
-                    // This is a method used to configure the dependency injection (DI) container.
-                    // The DI container is responsible for managing the application's services, such as logging,
-                    // database contexts, application services, etc.
-                    // When you use ConfigureServices(), you're adding services to the application's service container,
-                    // telling the application which services it will depend on and how they should be instantiated
-                    // (such as transient, scoped, or singleton)
-
                     // Here we can read whatever variable that was configured from the builder context
                     var factor = builderContext.Configuration.GetValue<int>("calculation:factor");
 
