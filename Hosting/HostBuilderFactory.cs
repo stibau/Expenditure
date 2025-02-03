@@ -86,6 +86,7 @@ public static class HostBuilderFactory
                 //We add all the environment variables
                 appConfig.AddEnvironmentVariables();
 
+                //Add command line args format key=value
                 if (args != null) appConfig.AddCommandLine(args);
             }
         );
