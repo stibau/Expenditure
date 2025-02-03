@@ -48,7 +48,7 @@ public static class HostBuilderFactory
                     var factor = builderContext.Configuration.GetValue<int>("calculation:factor");
 
                     services.AddHostedService<TestService>();
-                    services.AddSingleton<ITestClass, TestClass>(provider => new TestClass(factor));
+                    services.AddSingleton<ITestClass, TestClass>(_ => new TestClass(factor));
                 })
             // configures how the application handles dependency injection, allowing for better diagnostics and stricter validation,
             // helping developers ensure that services are configured correctly before they are used.
@@ -60,11 +60,6 @@ public static class HostBuilderFactory
                 // a scoped service is used incorrectly.
                 options.ValidateOnBuild = true;
             });
-    }
-
-    public static IHostBuilder CreateWebHostBuilder<TStartup>(string[] args) where TStartup : class
-    {
-        return null;
     }
 
     private static IHostBuilder ConfigureAppConfiguration(
