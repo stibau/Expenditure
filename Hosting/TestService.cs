@@ -2,14 +2,10 @@ using Microsoft.Extensions.Hosting;
 
 namespace Hosting;
 
-public class TestService : IHostedService
+public class TestService(ITestClass testClass) : IHostedService
 {
-    public ITestClass TestClass { get; }
+    private ITestClass TestClass { get; } = testClass;
 
-    public TestService(ITestClass testClass)
-    {
-        TestClass = testClass;
-    }
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         Console.WriteLine("TestService is starting...");
