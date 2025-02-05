@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-
-namespace Hosting;
+﻿namespace Hosting;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class Program
@@ -9,7 +7,7 @@ public class Program
     {
         try
         {
-            var hostBuilder = HostBuilderFactory.CreateGenericHostBuilder(args);
+            var hostBuilder = HostBuilderFactory.CreateWebHostBuilder(args);
             var host = hostBuilder.Build();
             await host.RunAsync();
         }
