@@ -1,7 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
 namespace Hosting;
 
 public static class HostBuilderFactory
@@ -36,13 +32,10 @@ public static class HostBuilderFactory
             .ConfigureAppConfiguration(args, "appSettings")
             // This is a method used to configure the dependency injection (DI) container.
             .ConfigureServices(
-                (builderContext, services) =>
+                (_,_) =>
                 {
-                    // Here we can read whatever variable that was configured from the builder context
-                    var factor = builderContext.Configuration.GetValue<int>("calculation:factor");
-
-                    services.AddHostedService<TestService>();
-                    services.AddSingleton<ITestClass, TestClass>(_ => new TestClass(factor));
+                   //We do nothing here, since we are developing a web application,
+                   //services will be configured when we set up the WebHost
                 })
             // configures how the application handles dependency injection, allowing for better diagnostics and stricter validation,
             // helping developers ensure that services are configured correctly before they are used.
@@ -53,6 +46,22 @@ public static class HostBuilderFactory
                 // This validates that scoped services are properly disposed of, preventing issues where
                 // a scoped service is used incorrectly.
                 options.ValidateOnBuild = true;
+            });
+    }
+
+    public static IHostBuilder CreateWebHostBuilder(string[]? args)
+    {
+        return CreateGenericHostBuilder(args)
+            .ConfigureWebHost(webBuilder =>
+            {
+                webBuilder.UseKestrel();
+                webBuilder.Configure(app =>
+                {
+                    app.Run(async context =>
+                    {
+                        await context.Response.WriteAsync("Hello, World!");
+                    });
+                });
             });
     }
 
