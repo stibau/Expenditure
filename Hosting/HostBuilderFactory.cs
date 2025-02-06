@@ -32,10 +32,10 @@ public static class HostBuilderFactory
             .ConfigureAppConfiguration(args, "appSettings")
             // This is a method used to configure the dependency injection (DI) container.
             .ConfigureServices(
-                (_,_) =>
+                (_, _) =>
                 {
-                   //We do nothing here, since we are developing a web application,
-                   //services will be configured when we set up the WebHost
+                    //We do nothing here, since we are developing a web application,
+                    //services will be configured when we set up the WebHost
                 })
             // configures how the application handles dependency injection, allowing for better diagnostics and stricter validation,
             // helping developers ensure that services are configured correctly before they are used.
@@ -54,13 +54,14 @@ public static class HostBuilderFactory
         return CreateGenericHostBuilder(args)
             .ConfigureWebHost(webBuilder =>
             {
-                webBuilder.UseKestrel();
+                webBuilder.UseKestrel((context, options) =>
+                    {
+                        options.Configure(context.Configuration.GetSection("Kestrel"));
+                    }
+                );
                 webBuilder.Configure(app =>
                 {
-                    app.Run(async context =>
-                    {
-                        await context.Response.WriteAsync("Hello, World!");
-                    });
+                    app.Run(async context => { await context.Response.WriteAsync("Hello, World!"); });
                 });
             });
     }
