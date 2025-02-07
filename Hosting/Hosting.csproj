@@ -13,13 +13,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="appSettings.json">
+        <None Include="appSettings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="appSettings.test.json">
+        </None>
+        <None Include="appSettings.test.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <DependentUpon>appSettings.json</DependentUpon>
-        </Content>
+        </None>
     </ItemGroup>    
 
 </Project>
