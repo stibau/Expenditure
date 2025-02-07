@@ -7,7 +7,7 @@ public class Program
     {
         try
         {
-            var hostBuilder = HostBuilderFactory.CreateWebHostBuilder(args);
+            var hostBuilder = HostBuilderFactory.CreateWebHostBuilder<Startup>(args);
             var host = hostBuilder.Build();
             await host.RunAsync();
         }

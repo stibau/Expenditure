@@ -49,20 +49,18 @@ public static class HostBuilderFactory
             });
     }
 
-    public static IHostBuilder CreateWebHostBuilder(string[]? args)
+    public static IHostBuilder CreateWebHostBuilder<TStartup>(string[]? args) where TStartup : class
     {
         return CreateGenericHostBuilder(args)
             .ConfigureWebHost(webBuilder =>
             {
                 webBuilder.UseKestrel((context, options) =>
-                    {
-                        options.Configure(context.Configuration.GetSection("Kestrel"));
-                    }
-                );
-                webBuilder.Configure(app =>
-                {
-                    app.Run(async context => { await context.Response.WriteAsync("Hello, World!"); });
-                });
+                        {
+                            options.Configure(context.Configuration.GetSection("Kestrel"));
+                        }
+                    )
+                    .ConfigureServices((_, services) => { services.AddControllers(); })
+                    .UseStartup<TStartup>();
             });
     }
 
