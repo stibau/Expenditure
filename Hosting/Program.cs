@@ -1,22 +1,17 @@
-﻿namespace Hosting;
+using Hosting;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public class Program
+try
 {
-    private static async Task<int> Main(string[] args)
-    {
-        try
-        {
-            var hostBuilder = HostBuilderFactory.CreateWebHostBuilder<Startup>(args);
-            var host = hostBuilder.Build();
-            await host.RunAsync();
-        }
-        catch (Exception exception)
-        {
-            Console.WriteLine(exception);
-            return 1;
-        }
+    // We create WebApplication using our own in house WebApplicationFactory
+    var app = WebApplicationFactory.CreateWebApplication(args);
 
-        return 0;
-    }
+    // Run the application
+    await app.RunAsync();
 }
+catch (Exception exception)
+{
+    Console.WriteLine($"Host terminated unexpectedly: {exception.Message}");
+    return 1;
+}
+
+return 0;
