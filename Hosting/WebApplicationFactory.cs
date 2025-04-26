@@ -14,7 +14,7 @@ public static class WebApplicationFactory
         var webApplication = webApplicationBuilder.Build();
 
         // We configure the middle ware on the web application
-        ConfigureMiddleWare(webApplication);
+        ConfigureMiddleWare(webApplication, webApplication.Environment);
 
         // We configure the endpoints on the application
         ConfigureEndpoints(webApplication);
@@ -22,13 +22,19 @@ public static class WebApplicationFactory
         return webApplication;
     }
 
-    private static void ConfigureMiddleWare(IApplicationBuilder webApplication)
+    private static void ConfigureMiddleWare(IApplicationBuilder webApplication, IWebHostEnvironment webHostEnvironment)
     {
         // For testing purposes only, if you add this you get a welcome page for url "/"
         // webApplication.UseWelcomePage();
 
         // Middleware that servers static files from the wwwroot folder
         //webApplication.UseStaticFiles();
+
+        if (webHostEnvironment.IsDevelopment())
+        {
+            webApplication.UseDeveloperExceptionPage();
+        }
+        else webApplication.UseExceptionHandler("/Error");
 
         // Add the Routing middleware: looks at the request path and matches it to an endpoint
         // Auto added by ASP.NET Core
@@ -39,6 +45,13 @@ public static class WebApplicationFactory
     {
         // Set up the various endpoint mappings. This calls the UseEndpoints middleware internally 
         webApplication.MapGet("/", () => "Hello World!");
+        
+        webApplication.MapGet("GenerateError", () =>
+        {
+            throw new Exception();
+        });
+
+        webApplication.MapGet("Error", () => "This is a nice, friendly error page");
     }
 
     private static void ConfigureService(IServiceCollection services)
