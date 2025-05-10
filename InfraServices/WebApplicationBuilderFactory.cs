@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Hosting;
+namespace InfraServices;
 
 public static class WebApplicationBuilderFactory
 {
@@ -16,13 +16,13 @@ public static class WebApplicationBuilderFactory
         ConfigureConfigurationProviders(builder.Configuration, builder.Environment, args);
         
         //Let's set up the logging
-        ConfigureLogging(builder.Logging);
+        ConfigureLogging(builder.Logging, builder.Configuration.GetSection("Logging"));
 
         // Set up DI validation options
         ConfigureServiceValidation(builder.Host);
 
         // Let's configure some services here already. Note that
-        // As long as we have not called build on the builder claas we can still add more services
+        // As long as we have not called build on the builder class we can still add more services
         ConfigureServices(builder.Services);
         
         // Let's set up the WebHost
@@ -31,11 +31,12 @@ public static class WebApplicationBuilderFactory
         return builder;
     }
 
-    private static void ConfigureLogging(ILoggingBuilder builderLogging)
+    private static void ConfigureLogging(ILoggingBuilder builderLogging, IConfiguration configuration)
     {
-        // For now let's just add basic Console logging (note that this logger provider is added by default
-        // Here we added it explicitly only for clarity
+        // For now let's just add basic Console logging (note that this logger provider is added by default.
+        // Here we added it explicitly only for clarity)
         builderLogging.ClearProviders();
+        builderLogging.AddConfiguration(configuration);
         builderLogging.AddConsole();
     }
 

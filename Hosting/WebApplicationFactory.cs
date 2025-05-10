@@ -1,3 +1,5 @@
+using InfraServices;
+
 namespace Hosting;
 
 public static class WebApplicationFactory
@@ -48,6 +50,7 @@ public static class WebApplicationFactory
         
         webApplication.MapGet("GenerateError", () =>
         {
+            // ReSharper disable once ConvertToLambdaExpression
             throw new Exception();
         });
 
