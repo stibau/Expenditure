@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hosting", "Hosting\Hosting.csproj", "{E1CC8616-FFF9-4776-8E19-8BCF02DED76B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{DFD27D7E-9893-4CBF-A88A-1BB92D8686DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfraServices", "InfraServices\InfraServices.csproj", "{DFD27D7E-9893-4CBF-A88A-1BB92D8686DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
