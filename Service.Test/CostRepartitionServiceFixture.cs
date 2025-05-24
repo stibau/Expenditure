@@ -1,5 +1,6 @@
 ﻿using AutoFixture.Xunit2;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Services;
 using Xunit;
 
@@ -11,7 +12,7 @@ public class CostRepartitionServiceFixture
     public void GetAllCosts_Should_ReturnData()
     {
         // Arranged
-        var sut = new CostRepartitionService();
+        var sut = new CostRepartitionService(new Logger<CostRepartitionService>(new LoggerFactory()));
 
         // Act
         var actual = sut.GetAllExpenses();
@@ -25,7 +26,7 @@ public class CostRepartitionServiceFixture
     public void GetAllCosts_ShouldReturnTheCorrectNumberOfElements(int expectedCount)
     {
         // Arrange
-        var sut = new CostRepartitionService();
+        var sut = new CostRepartitionService(new Logger<CostRepartitionService>(new LoggerFactory()));
 
         // Act
         var actual = sut.GetAllExpenses();
