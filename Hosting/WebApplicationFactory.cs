@@ -1,4 +1,5 @@
 using InfraServices;
+using Services;
 
 namespace Hosting;
 
@@ -55,11 +56,14 @@ public static class WebApplicationFactory
         });
 
         webApplication.MapGet("Error", () => "This is a nice, friendly error page");
+        
+        webApplication.MapGet("Expenses", (CostRepartitionService costRepartitionService) => costRepartitionService.GetAllExpenses());
     }
 
     private static void ConfigureService(IServiceCollection services)
     {
         // Placeholder to further configure service that may be needed and that have not yet been configured in the
         // WebApplicationBuilderFactory. 
+        services.AddSingleton<CostRepartitionService>();
     }
 }
