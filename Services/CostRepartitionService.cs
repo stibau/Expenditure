@@ -26,7 +26,7 @@ public class CostRepartitionService
 
     public List<Expense> GetAllExpenses()
     {
-        _log.LogInformation("Getting all expenses");
+        _log.LogInformation("Getting all expenses at {Time}", DateTime.UtcNow);
         return _expenses;
     }
 }
