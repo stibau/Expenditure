@@ -1,4 +1,5 @@
 using System.Reflection;
+using Serilog;
 
 namespace InfraServices;
 
@@ -16,7 +17,7 @@ public static class WebApplicationBuilderFactory
         ConfigureConfigurationProviders(builder.Configuration, builder.Environment, args);
         
         //Let's set up the logging
-        ConfigureLogging(builder.Logging, builder.Configuration.GetSection("Logging"));
+        ConfigureLogging(builder.Host, builder.Configuration);
 
         // Set up DI validation options
         ConfigureServiceValidation(builder.Host);
@@ -31,13 +32,18 @@ public static class WebApplicationBuilderFactory
         return builder;
     }
 
-    private static void ConfigureLogging(ILoggingBuilder builderLogging, IConfiguration configuration)
+    private static void ConfigureLogging(ConfigureHostBuilder builderHost, IConfigurationManager builderConfiguration)
     {
         // For now let's just add basic Console logging (note that this logger provider is added by default.
+        // This uses Microsoft.Extensions.Logging, which is like the built-in  logging system in .NET Core
         // Here we added it explicitly only for clarity)
-        builderLogging.ClearProviders();
-        builderLogging.AddConfiguration(configuration);
-        builderLogging.AddConsole();
+        // builderLogging.ClearProviders();
+        // builderLogging.AddConfiguration(configuration);
+        // builderLogging.AddConsole();
+        
+        //Let's setup Serilog logging
+        Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(builderConfiguration).CreateLogger();
+        builderHost.UseSerilog();
     }
 
     private static void ConfigureWebHost(ConfigureWebHostBuilder builderWebHost)
