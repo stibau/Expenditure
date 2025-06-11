@@ -1,3 +1,4 @@
+using Hosting.Endpoints;
 using InfraServices;
 using Services;
 
@@ -57,13 +58,13 @@ public static class WebApplicationFactory
 
         webApplication.MapGet("Error", () => "This is a nice, friendly error page");
         
-        webApplication.MapGet("Expenses", (CostRepartitionService costRepartitionService) => costRepartitionService.GetAllExpenses());
+        webApplication.MapExpensesEndpoints();
     }
 
     private static void ConfigureService(IServiceCollection services)
     {
         // Placeholder to further configure service that may be needed and that have not yet been configured in the
         // WebApplicationBuilderFactory. 
-        services.AddSingleton<CostRepartitionService>();
+        services.AddScoped<IExpensesService, ExpensesService>();
     }
 }
