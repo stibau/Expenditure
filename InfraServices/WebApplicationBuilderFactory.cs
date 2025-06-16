@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace InfraServices;
@@ -71,6 +72,17 @@ public static class WebApplicationBuilderFactory
 
     private static void ConfigureServices(IServiceCollection builderServices)
     {
+        // Adds the endpoint-discovery features of ASP.NET Core that Swashbuckle requires
+        builderServices.AddEndpointsApiExplorer();
+        
+        // Adds the Swashbuckle services required for creating OpenApi Documents
+        builderServices.AddSwaggerGen(cnf => cnf.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "Expenditure API",
+            Version = "v0.1",
+            Description = "API for managing expenses"
+        }));
+        
         // Have all internal services to make routing and endpoint handling work
         builderServices.AddRouting();
     }
