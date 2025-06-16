@@ -9,7 +9,7 @@ public class CustomSerilogFormatter : ITextFormatter
 {
     public void Format(LogEvent logEvent, TextWriter output)
     {
-       output.Write($"[{logEvent.Timestamp:HH:mm:ss} {logEvent.Level}] {logEvent.MessageTemplate}");
+       output.Write($"[{logEvent.Timestamp:HH:mm:ss.fff} {logEvent.Level}] {logEvent.RenderMessage()}");
 
        if (logEvent.TraceId.HasValue)
        {
@@ -25,5 +25,7 @@ public class CustomSerilogFormatter : ITextFormatter
        {
            output.Write($" [Exception: {logEvent.Exception}]");
        }
+       
+       output.Write($"{Environment.NewLine}");
     }
 }

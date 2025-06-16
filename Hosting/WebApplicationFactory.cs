@@ -8,7 +8,7 @@ public static class WebApplicationFactory
 {
     public static WebApplication CreateWebApplication(string[] args)
     {
-        // We set up a Web Application builder using our own in house WebApplicationBuilderFactory
+        // We set up a Web Application builder using our own in-house WebApplicationBuilderFactory
         var webApplicationBuilder = WebApplicationBuilderFactory.CreateWebApplicationBuilder(args);
 
         // We configure service as needed
@@ -17,7 +17,7 @@ public static class WebApplicationFactory
         // We build the WebApplication
         var webApplication = webApplicationBuilder.Build();
 
-        // We configure the middle ware on the web application
+        // We configure the middleware on the web application
         ConfigureMiddleWare(webApplication, webApplication.Environment);
 
         // We configure the endpoints on the application
@@ -28,7 +28,7 @@ public static class WebApplicationFactory
 
     private static void ConfigureMiddleWare(IApplicationBuilder webApplication, IWebHostEnvironment webHostEnvironment)
     {
-        // For testing purposes only, if you add this you get a welcome page for url "/"
+        // For testing purposes only, if you add this, you get a welcome page for url "/"
         // webApplication.UseWelcomePage();
 
         // Middleware that servers static files from the wwwroot folder
@@ -39,6 +39,12 @@ public static class WebApplicationFactory
             webApplication.UseDeveloperExceptionPage();
         }
         else webApplication.UseExceptionHandler("/Error");
+        
+        // Add the Swagger middleware: generates the Swagger documentation
+        webApplication.UseSwagger();
+        
+        // Add the Swagger UI middleware: serves the Swagger documentation
+        webApplication.UseSwaggerUI();
 
         // Add the Routing middleware: looks at the request path and matches it to an endpoint
         // Auto added by ASP.NET Core
