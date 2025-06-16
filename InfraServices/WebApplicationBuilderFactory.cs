@@ -8,10 +8,10 @@ public static class WebApplicationBuilderFactory
 {
     public static WebApplicationBuilder CreateWebApplicationBuilder(string[] args)
     {
-        // We create an empty builder with as little as possible settings pre-configured
+        // We create an empty builder with as few settings as possible pre-configured
         var builder = WebApplication.CreateEmptyBuilder(new WebApplicationOptions());
 
-        // Now let's set up some Environment related settings
+        // Now let's set up some Environment-related settings
         ConfigureEnvironment(builder.Environment);
 
         // Let's set up the application configuration
@@ -24,7 +24,7 @@ public static class WebApplicationBuilderFactory
         ConfigureServiceValidation(builder.Host);
 
         // Let's configure some services here already. Note that
-        // As long as we have not called build on the builder class we can still add more services
+        // As long as we have not called build on the builder class, we can still add more services
         ConfigureServices(builder.Services);
         
         // Let's set up the WebHost
@@ -36,7 +36,7 @@ public static class WebApplicationBuilderFactory
     private static void ConfigureLogging(ConfigureHostBuilder builderHost, IConfigurationManager builderConfiguration)
     {
         // For now let's just add basic Console logging (note that this logger provider is added by default.
-        // This uses Microsoft.Extensions.Logging, which is like the built-in  logging system in .NET Core
+        // This uses Microsoft.Extensions.Logging, which is like the built-in logging system in .NET Core
         // Here we added it explicitly only for clarity)
         // builderLogging.ClearProviders();
         // builderLogging.AddConfiguration(configuration);
@@ -59,11 +59,11 @@ public static class WebApplicationBuilderFactory
     private static void ConfigureServiceValidation(ConfigureHostBuilder builderHost)
     {
         // The following sets two validation options on the host before building it.
-        // They will ensure that the setup of teh DI container is validated at the moment the host is built
+        // They will ensure that the setup of the DI container is validated at the moment the host is built
         builderHost.UseDefaultServiceProvider(options =>
         {
             // This option will make sure build() throws if an error is detected with the dependencies that have been
-            // set up in the DI container. E.g. a singleton that depends on a scoped service
+            // set up in the DI container. E.g., a singleton that depends on a scoped service
             options.ValidateScopes = true;
             // This option will make sure build() throws if there is a missing dependency in the DI setup
             options.ValidateOnBuild = true;
@@ -72,17 +72,6 @@ public static class WebApplicationBuilderFactory
 
     private static void ConfigureServices(IServiceCollection builderServices)
     {
-        // Adds the endpoint-discovery features of ASP.NET Core that Swashbuckle requires
-        builderServices.AddEndpointsApiExplorer();
-        
-        // Adds the Swashbuckle services required for creating OpenApi Documents
-        builderServices.AddSwaggerGen(cnf => cnf.SwaggerDoc("v1", new OpenApiInfo
-        {
-            Title = "Expenditure API",
-            Version = "v0.1",
-            Description = "API for managing expenses"
-        }));
-        
         // Have all internal services to make routing and endpoint handling work
         builderServices.AddRouting();
     }
@@ -107,11 +96,11 @@ public static class WebApplicationBuilderFactory
         // Clear all the configuration providers
         configuration.Sources.Clear();
 
-        // Add two json file providers: 1) base appSettings.json and 2) appSettings.<environment>.json
+        // Add two JSON file providers: 1) base appSettings.json and 2) appSettings.<environment>.json
         configuration.AddJsonFile("appSettings.json");
         configuration.AddJsonFile($"appSettings.{builderEnvironment.EnvironmentName}.json", true);
 
-        // Add all the environment variables. They override the json file settings if needed
+        // Add all the environment variables. They override the JSON file settings if needed
         configuration.AddEnvironmentVariables();
 
         // Add configuration from the command line
