@@ -1,0 +1,1 @@
+dotnet msbuild ..\src\Services.IntegrationTests\Services.IntegrationTests.csproj -t:NSwag
